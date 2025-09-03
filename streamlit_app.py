@@ -94,7 +94,7 @@ st.title("Auto Volatility Position Sizer")
 mode = st.radio("Choose Mode:" , ["Auto (fetch Spot, IV, RV, GARCH)", "Manual (enter Spot, Vol, etc.)"] )
 if mode == "Auto (fetch Spot, IV, RV, GARCH)":
     ticker = st.text_input("Ticker Symbol", "AAPL")
-    amount = st.number_input("Amount to Risk in same currency as ticker (should be USD)", min_value=100.0, step=100.0)
+    amount = st.number_input("Max Drawdown Amount (Use same currency as ticker)", min_value=100.0, step=100.0)
     duration = st.number_input("Duration (Trading days)", min_value=1, max_value=252, value=20)
     direction = st.radio("Direction", ["long", "short"])
 
@@ -148,7 +148,7 @@ if mode == "Auto (fetch Spot, IV, RV, GARCH)":
 elif mode == "Manual (enter Spot, Vol, etc.)":
     spot = st.number_input("Spot Price", min_value=0.01)
     iv = st.number_input("Implied Volatility (annualised)", min_value=0.0, step=0.01)
-    amount = st.number_input("Amount to Risk", min_value=100.0, step=100.0)
+    amount = st.number_input("Max Drawdown Amount (Use same currency as ticker)", min_value=100.0, step=100.0)
     duration = st.number_input("Duration (days)", min_value=1, max_value=252, value=20)
     direction = st.radio("Direction", ["long", "short"])
 
