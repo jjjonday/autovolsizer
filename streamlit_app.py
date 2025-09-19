@@ -145,7 +145,7 @@ if mode == "Equities (fetch Spot, IV, RV, GARCH)":
         else:
             st.error("Please ensure all values are filled in before calculation.")
 elif mode == "Futures, FX":
-    spot = st.number_input("Spot Price", min_value=0.01)
+    spot = st.number_input("Spot Price", min_value=0.000001)
     iv = st.number_input("Implied Volatility (annualised)", min_value=0.0, step=0.01)
     amount = st.number_input("Amount you are willing to lose", min_value=100.0, step=100.0)
     
