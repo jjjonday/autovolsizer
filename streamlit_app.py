@@ -151,7 +151,7 @@ elif mode == "Futures, FX":
     
     # Separate pip size and pip value
     pip_size = st.number_input("Pip size (price movement per pip)", value=0.0001, format="%.5f")
-    pip_value = st.number_input("Value per pip (in account currency)", min_value=0.01, step=0.01,format="%.5f")
+    pip_value = st.number_input("Value per pip (in account currency)", min_value=0.01, step=0.000001,format="%.5f")
     
     duration = st.number_input("Duration (days)", min_value=1, max_value=252, value=20)
     direction = st.radio("Direction", ["long", "short"])
