@@ -148,28 +148,38 @@ elif mode == "Futures, FX":
     spot = st.number_input("Spot Price", min_value=0.01)
     iv = st.number_input("Implied Volatility (annualised)", min_value=0.0, step=0.01)
     amount = st.number_input("Amount you are willing to lose", min_value=100.0, step=100.0)
-    pip_value = st.number_input("Value per pip (contract-specific)", min_value=0.01, step=0.01)
+    
+    # Separate pip size and pip value
+    pip_size = st.number_input("Pip size (price movement per pip)", value=0.0001, format="%.5f")
+    pip_value = st.number_input("Value per pip (in account currency)", min_value=0.01, step=0.01)
+    
     duration = st.number_input("Duration (days)", min_value=1, max_value=252, value=20)
     direction = st.radio("Direction", ["long", "short"])
 
     if st.button("Calculate Position"):
+        # Scale volatility to time horizon
         one_std = iv / np.sqrt(252) * np.sqrt(duration)
-        one_half_std = one_std * 1.5
+        one_point_five_std = one_std * 1.5
 
+        # Compute stop levels
         if direction == "long":
             one_std_stop = spot * (1 - one_std)
-            one_half_std_stop = spot * (1 - one_half_std)
+            one_point_five_std_stop = spot * (1 - one_point_five_std)
         else:  # short
             one_std_stop = spot * (1 + one_std)
-            one_half_std_stop = spot * (1 + one_half_std)
+            one_point_five_std_stop = spot * (1 + one_point_five_std)
 
-        # 🔑 Adjust for pip value instead of raw spot movement
-        one_std_size = amount / ((spot - one_std_stop) / pip_value)
-        one_half_std_size = amount / ((spot - one_half_std_stop) / pip_value)
+        # Convert price difference into pip count
+        price_diff_pips_1 = (spot - one_std_stop) / pip_size
+        price_diff_pips_1_5 = (spot - one_point_five_std_stop) / pip_size
+
+        # Position sizing based on monetary risk
+        one_std_size = amount / (price_diff_pips_1 * pip_value)
+        one_point_five_std_size = amount / (price_diff_pips_1_5 * pip_value)
 
         df = pd.DataFrame(
             [[direction, one_std_size, one_std_stop,
-              one_half_std_size, one_half_std_stop]],
+              one_point_five_std_size, one_point_five_std_stop]],
             columns=['Direction','1 SD Size','1 SD Stop Loss',
                      '1.5 SD Size','1.5 SD Stop Loss']
         )
