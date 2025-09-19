@@ -187,7 +187,7 @@ elif mode == "Futures, FX":
 elif mode == "Manual (enter Spot, Vol, etc.)":
     spot = st.number_input("Spot Price", min_value=0.01)
     iv = st.number_input("Implied Volatility (annualised)", min_value=0.0, step=0.01)
-    amount = st.number_input("Max Drawdown Amount (Use same currency as ticker)", min_value=100.0, step=100.0)
+    amount = st.number_input("Amount you are willing to use", min_value=100.0, step=100.0)
     duration = st.number_input("Duration (days)", min_value=1, max_value=252, value=20)
     direction = st.radio("Direction", ["long", "short"])
 
