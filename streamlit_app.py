@@ -145,13 +145,13 @@ if mode == "Equities (fetch Spot, IV, RV, GARCH)":
         else:
             st.error("Please ensure all values are filled in before calculation.")
 elif mode == "Futures, FX":
-    spot = st.number_input("Spot Price", min_value=0.000001)
+    spot = st.number_input("Spot Price", min_value=0.000001,format="%.5f")
     iv = st.number_input("Implied Volatility (annualised)", min_value=0.0, step=0.01)
     amount = st.number_input("Amount you are willing to lose", min_value=100.0, step=100.0)
     
     # Separate pip size and pip value
     pip_size = st.number_input("Pip size (price movement per pip)", value=0.0001, format="%.5f")
-    pip_value = st.number_input("Value per pip (in account currency)", min_value=0.01, step=0.01)
+    pip_value = st.number_input("Value per pip (in account currency)", min_value=0.01, step=0.01,format="%.5f")
     
     duration = st.number_input("Duration (days)", min_value=1, max_value=252, value=20)
     direction = st.radio("Direction", ["long", "short"])
